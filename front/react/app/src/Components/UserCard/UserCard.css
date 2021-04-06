@@ -1,5 +1,5 @@
 .userCardDiv {
-  width: 350px;
+  min-width: 350px;
   background-color: #ffffff;
   box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
   align-items: center;
@@ -33,4 +33,6 @@
 .cardInfo {
   font-size: 20px;
   margin-top: 50px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
