@@ -20,7 +20,7 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/getuser", getUser).Methods("GET")
+	router.HandleFunc("/getuser", enableCors(getUser)).Methods("GET")
 
 	fmt.Println("Listening on Port :1212")
 	err := http.ListenAndServe(":1212", router)
@@ -28,6 +28,13 @@ func main() {
 		fmt.Println("Could not start server:", err)
 	}
 
+}
+
+func enableCors(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		next(w, r)
+	}
 }
 
 func getUser(w http.ResponseWriter, r *http.Request) {
