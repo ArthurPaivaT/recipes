@@ -1,0 +1,36 @@
+.userCardDiv {
+  width: 350px;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
+  align-items: center;
+  display: flex;
+  border-radius: 11px;
+  flex-direction: column;
+  padding-bottom: 50px;
+}
+
+.cardBar {
+  background-color: rgb(89, 0, 56);
+  width: 100%;
+  height: 50px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  align-self: flex-start;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  color: white;
+}
+
+.cardInfo {
+  font-size: 20px;
+  margin-top: 50px;
+}

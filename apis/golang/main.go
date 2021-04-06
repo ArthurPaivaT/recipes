@@ -8,9 +8,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type dev struct {
+type user struct {
 	Name     string `json:"name"`
 	MainRole string `json:"mainRole"`
+	LinkedIn string `json:"linkedIn"`
+	GitHub   string `json:"gitHub"`
 }
 
 func main() {
@@ -18,7 +20,7 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/getdev", getDev).Methods("GET")
+	router.HandleFunc("/getuser", getUser).Methods("GET")
 
 	fmt.Println("Listening on Port :1212")
 	err := http.ListenAndServe(":1212", router)
@@ -28,19 +30,21 @@ func main() {
 
 }
 
-func getDev(w http.ResponseWriter, r *http.Request) {
+func getUser(w http.ResponseWriter, r *http.Request) {
 
-	arthurDev := dev{
-		Name:     "Arthur",
-		MainRole: "Backend Dev",
+	arthurUser := user{
+		Name:     "Arthur Paiva Tavares",
+		MainRole: "Anything Developer",
+		LinkedIn: "linkedin.com/in/arthur-paiva-982405199/",
+		GitHub:   "github.com/arthurpaivat",
 	}
 
-	arthurDevJSON, err := json.Marshal(arthurDev)
+	arthurUserJSON, err := json.Marshal(arthurUser)
 	if err != nil {
-		err := fmt.Errorf("Error creating dev json: %w", err)
+		err := fmt.Errorf("Error creating user json: %w", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	w.Write(arthurDevJSON)
+	w.Write(arthurUserJSON)
 }
