@@ -1,1 +1,9 @@
-just run nodemon or npm install
+# Running Server
+
+Go into the same folder as package.json and run:
+
+    npm install
+
+And then
+
+    npm start
