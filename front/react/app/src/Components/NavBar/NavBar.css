@@ -1,0 +1,12 @@
+.navBar {
+  background-color: rgb(89, 0, 56);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  height: 80px;
+}
+
+.navBarText {
+  color: white;
+}
