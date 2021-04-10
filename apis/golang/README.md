@@ -1,44 +1,44 @@
 # GoLang API
 
-- [Passos para Reproduzir](#Passos-para-Reproduzir)
-- [Executando o Serviço](#Executando-o-Serviço)
+- [Steps to Reproduce](#Steps-to-Reproduce)
+- [Running the Service](#Running-the-Service)
 
-## Passos para Reproduzir
+## Steps to Reproduce
 
-### Iniciando Serviço de Módulos
+### Starting the golang modules service
 
-O primeiro passo é iniciar o serviço de módulos do go, já que vamos precisar usar pacotes de terceiros no nosso servidor.
+The first step is to init the golang modules service, since we will need to use some third parties packages in our server.
 
-Pra isso, na raiz da sua pasta, execute o comando no terminal:
+Then, at the root of your folder, run the command:
 
-    go mod init github.com/seuUsuario/repositorio
+    go mod init github.com/yourUser/repo
 
-Onde github.com/seuUsuario/repositorio é o link para fazer o download do seu código, caso você queira transformá-lo em um módulo para disponibilizar pra outros.
+where github.com/yourUser/repo is the link to download your code, in case you want to make it available as a module to other people.
 
-### Criando o Código
+### Creating the Code
 
-Crie o um arquivo **main.go** na mesma pasta onde está o arquivo **go.mod**
+Create a `main.go` file at the same folder as the `go.mod` generated file.
 
-Agora podemos começar a escrever no arquivo. A primeira coisa a definir no código é o pacote ao qual o arquivo faz parte, no caso é o arquivo `main` do projeto:
+Now we can start writting the code. The first thing to set is the project package which the code belongs to, in this case it's the `main` package.
 
     package main
 
-> Não se preocupe se ficar confuso, no final eu mostro como fica o arquivo inteiro
+> Don't worry if it gets confusing, i'll show you how the final code looks like.
 
-### Importando pacotes
+### Importing packages
 
-Na main, iremos usar quatro pacotes:
+In the main function, we'll use four packages:
 
 - encoding/json
-  - Para trabalhar com JSONs nas requisições
+  - To work with JSONs in the requests
 - fmt
-  - Para imprimir no terminal os logs
+  - To print the service logs
 - net/http
-  - Para iniciar o serviço
+  - To start the service
 - gorilla/mux
-  - Para definir as rotas e rotinas do servidor
+  - To set the server routes and routines
 
-A importação destes pacotes no código fica:
+The importing code looks like:
 
     import (
         "encoding/json"
@@ -48,24 +48,26 @@ A importação destes pacotes no código fica:
         "github.com/gorilla/mux"
     )
 
-Agora podemos iniciar a definição do serviço, vamos fazer isso na main:
+Now we can start defining the service, let's do it in the main function:
 
-Primeiro nós definimos as rotas, primeiro vamos criar o serviço que gerencia as rotas com o mux:
+    func main(){
+
+We need to set the routs, let's first create the routes handling service with the mux package method:
 
     router := mux.NewRouter()
 
-E então definir a rota `/getuser` para a função `getUser`, que vamos definir posteriormente no código
+And then set the route `/getuser` to the function `getUser`, which we'll create soon.
 
     router.HandleFunc("/getuser", getUser).Methods("GET")
 
-Agora é só iniciar o servidor com o método do pacote http, vamos usar o `router` com as rotas que definimos acima e iniciar o serviço na porta 1212 da nossa máquina
+Now we gotta start the service with the http package method, let's use the created `router` and start the service at the port `1212` on our machine.
 
     err := http.ListenAndServe(":1212", router)
     if err != nil {
         fmt.Println("Could not start server:", err)
     }
 
-Agora a nossa main vai ficar parecida com:
+Now our main looks like
 
     func main() {
         fmt.Println("Starting Server...")
@@ -80,13 +82,13 @@ Agora a nossa main vai ficar parecida com:
         }
     }
 
-Agora que a função main está criada, vamos criar esta função `getUser`, que será chamada quando usarmos a rota `/getuser`
+Now that the main func is created, let's create the `getUser` function, which will be called when we user the `/getuser` route.
 
-### Criando a função getUser
+### Creating the function getUser
 
-Vamos fazer uma função genérica que retorna um json com dados de um desenvolvedor.
+Let's create a generic function which returns a json with some developer data.
 
-Primeiro precisamos definir qual o tipo do objeto que será retornado como json:
+First we need to set the object type which will be returned as json:
 
     type user struct {
         Name     string `json:"name"`
@@ -95,13 +97,13 @@ Primeiro precisamos definir qual o tipo do objeto que será retornado como json:
         GitHub   string `json:"gitHub"`
     }
 
-Agora podemos instanciar objetos do tipo user.
+Now we can instantiate user type objects.
 
 Vamos criar a nossa função getUser pra fazer isso:
 
     func getUser(w http.ResponseWriter, r \*http.Request) {
 
-Agora podemos instanciar um usuario com o tipo definido acima, vamos criar o arthurUser \o/
+Now we can instantiate an user object, let's create the arthurUser \o/
 
         arthurUser := user{
             Name:     "Arthur Paiva Tavares",
@@ -110,9 +112,9 @@ Agora podemos instanciar um usuario com o tipo definido acima, vamos criar o art
             GitHub:   "github.com/arthurpaivat",
         }
 
-A intenção é enviar como resposta para a requisição feita no `/getuser` o json desde usuário criado.
+The intention is to send the created user object as the response to the requisition made to `/getuser`.
 
-Vamos fazer isso usando a função Marshal do pacote json, criando o JSON do objeto `arthurUser`
+We can do it using the Marshal func from the json package, creating the `arthurUser` object JSON.
 
         arthurUserJSON, err := json.Marshal(arthurUser)
         if err != nil {
@@ -121,15 +123,15 @@ Vamos fazer isso usando a função Marshal do pacote json, criando o JSON do obj
             return
         }
 
-Agora a gente escreve na resposta da requisição o JSON que foi montado
+Now we write the generated JSON to the request response.
 
         w.Write(arthurUserJSON)
 
-Para usar esta resposta em outro serviço, precisamos enviar junto com ela um header com o cors, que é uma configuração que o navegador verifica para poder liberar o acesso à resposta para outras aplicações:
+To get this reponse from another service, we need to send along with it a `cors` header, it's a setting that our browser uses to check if it can allow another apps to receive the response.
 
-        w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Origin", "\*")
 
-Por fim, o nosso código completo fica:
+At the end, our whole code is:
 
     package main
 
@@ -181,30 +183,32 @@ Por fim, o nosso código completo fica:
         w.Write(arthurUserJSON)
     }
 
-## Executando o Serviço
+## Running the Service
 
+Now that we have the main.go file with the service code and the packages import, we need to download these packages.
 Agora que temos o arquivo main.go com o código do serviço e a importação dos pacotes, precisamos fazer o download dos pacotes utilizados.
 
+If you're using VsCode, maybe the neede packages are even already imported since when you saved the file
 Se você usa o VsCode para desenvolver, pode ser que os pacotes até já estejam importados no seu arquivo go.mod
 
-Se não, não tem problema! É só abrir o arquivo go.mod e adicionar a ele a linha:
+If you don't, no problem. You just gotta open your `go.mod` file and add the line:
 
     require github.com/gorilla/mux v1.8.0
 
-Isso porquê o pacote mux é um pacote criado por terceiros. Os outros pacotes usados no código já vêm no go.
+This is needed because the mux package is created by third parties. The other packages used are already attached to golang.
 
-Para fazer o download destes pacotes, execute o seguinte comando no seu terminal:
+To download the packages set in the `go.mod` file, run:
 
     go mod vendor
 
-todos os pacotes necessários serão salvos na pasta `/vendor`
+Every needed package will be saved at the `/vendor` folder.
 
-**AGORA PODEMOS EXECUTAAAAR**
+**NOW WE CAN RUN OUR SERVICE**
 
-É só rodar o comando
+Just run the command;
 
     go run main.go
 
-Se você abrir o seu navegador e digitar a url `localhost:1212/getuser` irá ver o json do objeto de usuário definido no código.
+If you open your browser and type `localhost:1212/getuser` you'll see the user object json set in the code. Se você abrir o seu navegador e digitar a url irá ver o json do objeto de usuário definido no código.
 
-Agora estas informações podem ser acessadas por outros serviços na sua máquina! Yay!
+Now these data can be accessed by other services in your machine! Yay!
