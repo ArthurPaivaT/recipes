@@ -2,13 +2,13 @@
 
 ## Rest APIs
 
-- [NodeJs](/apis/node/README.md)
-- [GoLang](/apis/golang/README.md)
+- [NodeJs](/apis/node/)
+- [GoLang](/apis/golang/)
 
 ## Frontend Web
 
-- [ReactJs](/front/react/app/README.md)
+- [ReactJs](/front/react/app/)
 
 ## Códigos Simples
 
-- [GoLang](/simple-scripts/golang/README.md)
+- [GoLang](/simple-scripts/golang/)
