@@ -12,3 +12,5 @@
 ## Códigos Simples
 
 - [GoLang](/simple-scripts/golang/)
+- [C](/simple-scripts/c/)
+- [Python](/simple-scripts/python/)
