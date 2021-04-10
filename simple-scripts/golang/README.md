@@ -14,11 +14,6 @@ The simple hello world code should look like:
 
 ## Running
 
-If you have cloned this repo, just run:
+Save a file named like `main.go`, put the code above in it and run
 
-    go run helloWorld.go
-
-Otherwise, you can create your own file as "myFile.go" and paste the code above in it.
-Then run:
-
-    go run myFile.go
+    go run main.go
